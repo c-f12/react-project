@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Home = () => (
-    <section className="home">
+    <section className="container home">
         <header className="row">
             <div className="col-12">
                 <h1>Hot and Popular</h1>
