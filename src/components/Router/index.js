@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import App from '../../layouts/App'
 import Home from '../../views/Home'
+import Movies from '../../views/Movies'
 import NotFound from '../../views/NotFound'
 
 const Router = () => (
@@ -10,6 +11,7 @@ const Router = () => (
         <App>
             <Switch>
                 <Route exact path="/" component={Home} />
+                <Route path="/movies" component={Movies} />
                 <Route component={NotFound} />
             </Switch>
         </App>

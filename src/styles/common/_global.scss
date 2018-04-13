@@ -26,3 +26,65 @@ body {
   background-color: #555;
 }
  
+.main {
+  > header {
+    h1 {
+      margin: 35px 0;
+      text-transform: uppercase;
+      font-weight: bolder;
+    }
+  }
+}
+
+.movie-item{
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  height: 350px;
+  overflow: hidden;
+
+  .overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 0;
+    width: 100%;
+    top: 175px;
+    height: 350px;
+    overflow: auto;
+    transition: 0.25s ease-out;
+    padding-bottom: 25px;
+  }
+
+  h1 {
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    font-size: 1.25rem;
+    padding: 15px;
+  }
+
+  p {
+    color: white;
+    font-weight: light;
+    position: relative;
+    z-index: 1;
+    font-size: 0.9rem;
+    display: none;
+    padding: 15px;
+  }
+
+  &:hover {
+    .overlay {
+      top: 0;
+    }
+
+    p {
+      display: block;
+    }
+  }
+}
