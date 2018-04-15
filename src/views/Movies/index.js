@@ -1,5 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import * as moviesActions from '../../actions/moviesActions'
 
 class Movies extends React.Component {
     constructor(props) {
@@ -11,11 +15,16 @@ class Movies extends React.Component {
     }
 
     componentDidMount(){
-        fetch('https://api.themoviedb.org/3/discover/movie?api_key='+process.env.REACT_APP_TMDB_API_KEY)
-        .then(response => response.json())
-        .then(json => json.results)
-        .then(data => this.setState({movies: data}))
-        .catch(error => alert('We could not load the page at this time.'))
+        const { movies } = this.state
+        const { moviesActions } = this.props
+
+        if(movies.length === 0) {
+            moviesActions.loadMovies()
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({movies: nextProps.movies})
     }
 
     render() {
@@ -47,4 +56,16 @@ class Movies extends React.Component {
     }
 }
 
-export default Movies
+function mapStateToProps(state, ownProps){
+    return {
+        movies: state.movies
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        moviesActions: bindActionCreators(moviesActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movies)
