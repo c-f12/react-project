@@ -2,27 +2,60 @@ import React from 'react'
 
 import Movie from '../../components/Movie'
 
+const MOVIE_URL = 'https://api.themoviedb.org/3/discover/movie?api_key='
+
 class Movies extends React.Component {
     constructor(props) {
         super(props) 
 
         this.state = {
-            movies: []
+            movies: [],
+            page: 1,
+            loadingMovies: false
         }
     }
 
     componentDidMount(){
-        fetch('https://api.themoviedb.org/3/discover/movie?api_key='+process.env.REACT_APP_TMDB_API_KEY)
-        .then(response => response.json())
-        .then(json => json.results)
-        .then(data => this.setState({movies: data}))
-        .catch(error => alert('We could not load the page at this time.'))
-        window.addEventListener("scroll", function(e) {
-            const scrollTop = this.scrollY
+        this.loadMovies()
+
+        window.addEventListener("scroll", e => {
+            const scrollTop = window.scrollY
             const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
             const pctScrolled = Math.floor(scrollTop/trackLength * 100)
-            console.log(pctScrolled + '% scrolled')
+            if(pctScrolled > 95 && !this.state.loadingMovies) {
+                this.loadMovies()
+                this.setState({
+                    loadingMovies: true
+                })
+            }
         }, false);
+    }
+
+    loadMovies = () => {
+        const { page } = this.state
+        fetch(`${MOVIE_URL}${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`)
+        .then(response => response.json())
+        .then(json => json.results)
+        .then(movies => {
+            if(page === 1) {
+                this.setState({
+                    movies,
+                    page: page+1,
+                    loadingMovies: false
+                })
+            }
+            else {
+                this.setState({
+                    movies: [
+                        ...this.state.movies,
+                        ...movies
+                    ],
+                    page: page+1,
+                    loadingMovies: false
+                })
+            }
+        })
+        .catch(error => alert('We could not load the page at this time.'))
     }
 
     render() {
@@ -51,3 +84,9 @@ class Movies extends React.Component {
 }
 
 export default Movies
+
+
+
+
+
+
