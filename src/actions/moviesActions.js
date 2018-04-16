@@ -20,3 +20,23 @@ export function loadMovies(page = 1){
         })
     }
 }
+
+export function loadComingSoon(page = 1){
+    return dispatch => {
+        fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`)
+        .then(response => response.json())
+        .then(json => json.results)
+        .then(movies => dispatch(loadMoviesSuccess(movies)))
+        .catch(error => {
+            dispatch(loadMoviesFailure())
+            alert('We could not load the page at this time.')
+        })
+    }
+}
+
+
+
+
+
+
+

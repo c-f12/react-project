@@ -38,7 +38,7 @@ class Movies extends React.Component {
         }, false);
     }
 
-    getDerivedStateFromProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.movies.length > this.state.movies.length) {
             this.setState({
                 loadingMovies: false,
