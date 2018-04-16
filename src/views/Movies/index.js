@@ -17,6 +17,12 @@ class Movies extends React.Component {
         .then(json => json.results)
         .then(data => this.setState({movies: data}))
         .catch(error => alert('We could not load the page at this time.'))
+        window.addEventListener("scroll", function(e) {
+            const scrollTop = this.scrollY
+            const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
+            const pctScrolled = Math.floor(scrollTop/trackLength * 100)
+            console.log(pctScrolled + '% scrolled')
+        }, false);
     }
 
     render() {
