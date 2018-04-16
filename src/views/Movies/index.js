@@ -24,18 +24,26 @@ class Movies extends React.Component {
 
         moviesActions.loadMovies()
 
-        window.addEventListener("scroll", e => {
-            const { page } = this.state
-            const scrollTop = window.scrollY
-            const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
-            const pctScrolled = Math.floor(scrollTop/trackLength * 100)
-            if(pctScrolled > 95 && !this.state.loadingMovies) {
-                moviesActions.loadMovies(page)
-                this.setState({
-                    loadingMovies: true
-                })
-            }
-        }, false);
+        window.addEventListener("scroll", this.infiniteScroller, false);
+    }
+
+    infiniteScroller =  e => {
+        const { moviesActions } = this.props
+        const { page } = this.state
+        const scrollTop = window.scrollY
+        const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
+        const pctScrolled = Math.floor(scrollTop/trackLength * 100)
+        if(pctScrolled > 95 && !this.state.loadingMovies) {
+            moviesActions.loadMovies(page)
+            this.setState({
+                loadingMovies: true
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        // you need to unbind the same listener that was binded.
+        window.removeEventListener('scroll', this.infiniteScroller, false);
     }
 
     componentWillReceiveProps(nextProps) {
