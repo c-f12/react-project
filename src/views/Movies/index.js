@@ -1,8 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import Movie from '../../components/Movie'
 
-const MOVIE_URL = 'https://api.themoviedb.org/3/discover/movie?api_key='
+import * as moviesActions from '../../actions/moviesActions'
 
 class Movies extends React.Component {
     constructor(props) {
@@ -16,9 +19,13 @@ class Movies extends React.Component {
     }
 
     componentDidMount(){
-        this.loadMovies()
+        const { movies } = this.state
+        const { moviesActions } = this.props
+
+        moviesActions.loadMovies()
 
         window.addEventListener("scroll", e => {
+            const { page } = this.state
             const scrollTop = window.scrollY
             const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
             const pctScrolled = Math.floor(scrollTop/trackLength * 100)
@@ -31,31 +38,14 @@ class Movies extends React.Component {
         }, false);
     }
 
-    loadMovies = () => {
-        const { page } = this.state
-        fetch(`${MOVIE_URL}${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`)
-        .then(response => response.json())
-        .then(json => json.results)
-        .then(movies => {
-            if(page === 1) {
-                this.setState({
-                    movies,
-                    page: page+1,
-                    loadingMovies: false
-                })
-            }
-            else {
-                this.setState({
-                    movies: [
-                        ...this.state.movies,
-                        ...movies
-                    ],
-                    page: page+1,
-                    loadingMovies: false
-                })
-            }
-        })
-        .catch(error => alert('We could not load the page at this time.'))
+    getDerivedStateFromProps(nextProps) {
+        if(nextProps.movies.length > this.state.movies.length) {
+            this.setState({
+                loadingMovies: false,
+                page: this.state.page + 1,
+                movies: nextProps.movies
+            })
+        }
     }
 
     render() {
@@ -83,10 +73,17 @@ class Movies extends React.Component {
     }
 }
 
-export default Movies
+function mapStateToProps(state, ownProps){
+    return {
+        movies: state.movies
+    }
+}
 
+function mapDispatchToProps(dispatch){
+    return {
+        moviesActions: bindActionCreators(moviesActions, dispatch),
+    }
+}
 
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(Movies)
 

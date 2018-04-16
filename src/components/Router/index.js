@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux' 
 
 import App from '../../layouts/App'
 import Home from '../../views/Home'
@@ -7,8 +8,8 @@ import Movies from '../../views/Movies'
 import Movie from '../../views/Movie'
 import NotFound from '../../views/NotFound'
 
-const Router = () => (
-    <BrowserRouter>
+const Router = ({history}) => (
+    <ConnectedRouter history={history}>
         <App>
             <Switch>
                 <Route exact path="/" component={Home} />
@@ -17,7 +18,7 @@ const Router = () => (
                 <Route component={NotFound} />
             </Switch>
         </App>
-    </BrowserRouter>
+    </ConnectedRouter>
 )
 
 export default Router
