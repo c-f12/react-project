@@ -10,7 +10,9 @@ class Movies extends React.Component {
         super(props) 
 
         this.state = {
-            movies: []
+            movies: [],
+            page: 1,
+            loadingMovies: false
         }
     }
 
@@ -18,13 +20,31 @@ class Movies extends React.Component {
         const { movies } = this.state
         const { moviesActions } = this.props
 
-        if(movies.length === 0) {
-            moviesActions.loadMovies()
-        }
+        moviesActions.loadMovies()
+
+        window.addEventListener("scroll", e => {
+            const { page } = this.state
+            const scrollTop = window.scrollY
+            const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
+            const pctScrolled = Math.floor(scrollTop/trackLength * 100)
+            if(pctScrolled > 95 && !this.state.loadingMovies) {
+                moviesActions.loadMovies(page)
+                this.setState({
+                    loadingMovies: true,
+                })
+            }
+        }, false);
+
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({movies: nextProps.movies})
+    getDerivedStateFromProps(nextProps) {
+        if(nextProps.movies.length > this.state.movies.length) {
+            this.setState({
+                loadingMovies: false,
+                page: this.state.page + 1,
+                movies: nextProps.movies
+            })
+        }
     }
 
     render() {
