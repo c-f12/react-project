@@ -1,7 +1,7 @@
 import * as types from '../types/movies'
 
-export function loadMoviesSuccess(movies, mustEmpty){
-    return { type: types.LOAD_MOVIES_SUCCESS, movies, mustEmpty }
+export function loadMoviesSuccess(movies, page){
+    return { type: types.LOAD_MOVIES_SUCCESS, movies, page }
 }
 
 export function loadMoviesFailure(){
@@ -13,7 +13,7 @@ export function loadMovies(page = 1){
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`)
         .then(response => response.json())
         .then(json => json.results)
-        .then(movies => dispatch(loadMoviesSuccess(movies, page !== 1)))
+        .then(movies => dispatch(loadMoviesSuccess(movies, page)))
         .catch(error => {
             dispatch(loadMoviesFailure())
             alert('We could not load the page at this time.')
@@ -26,7 +26,7 @@ export function loadComingSoon(page = 1){
         fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`)
         .then(response => response.json())
         .then(json => json.results)
-        .then(movies => dispatch(loadMoviesSuccess(movies, page !== 1)))
+        .then(movies => dispatch(loadMoviesSuccess(movies, page)))
         .catch(error => {
             dispatch(loadMoviesFailure())
             alert('We could not load the page at this time.')
