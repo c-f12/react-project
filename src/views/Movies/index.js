@@ -30,7 +30,7 @@ class Movies extends React.Component {
             const trackLength = document.querySelector('body').scrollHeight - window.innerHeight
             const pctScrolled = Math.floor(scrollTop/trackLength * 100)
             if(pctScrolled > 95 && !this.state.loadingMovies) {
-                this.loadMovies()
+                moviesActions.loadMovies(page)
                 this.setState({
                     loadingMovies: true
                 })
