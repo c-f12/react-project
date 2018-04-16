@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
+import Movie from '../../components/Movie'
 
 class Movies extends React.Component {
     constructor(props) {
@@ -31,14 +32,10 @@ class Movies extends React.Component {
                 <div className="row movie-list-wrapper">
                     {movies.map((movie, i) => {
                         return (
-                            <article key={i} className="col-md-3 my-4 movie-item" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w342/${movie.poster_path})`}}>
-                                <div className="overlay">
-                                    <header className="w-100">
-                                        <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-                                    </header>
-                                    <p>{movie.overview}</p>
-                                </div>
-                            </article>
+                            <Movie
+                                key={i}
+                                {...movie}
+                            />
                         )
                     })}
                 </div>

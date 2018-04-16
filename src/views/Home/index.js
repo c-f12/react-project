@@ -1,4 +1,5 @@
 import React from 'react'
+import Movie from '../../components/Movie'
 
 const Home = () => (
     <section className="container main home">
@@ -10,14 +11,10 @@ const Home = () => (
         <div className="row movie-list-wrapper">
             {movieList.map((movie, i) => {
                 return (
-                    <article key={i} className="col-md-3 my-4 movie-item" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w342/${movie.poster_path})`}}>
-                        <div className="overlay">
-                            <header className="w-100">
-                                <h1>{movie.title}</h1>
-                            </header>
-                            <p>{movie.overview}</p>
-                        </div>
-                    </article>
+                    <Movie
+                        key={i}
+                        {...movie}
+                    />
                 )
             })}
         </div>
