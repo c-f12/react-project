@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import _ from 'lodash'
 
 import Movie from '../../components/Movie'
 
@@ -15,7 +16,8 @@ class Movies extends React.Component {
             movies: [],
             page: 1,
             loadingMovies: false,
-            nowViewing: 'popular'
+            nowViewing: 'popular',
+            sortBy: 'title-asc'
         }
     }
 
@@ -73,8 +75,19 @@ class Movies extends React.Component {
         })
     }
 
+    onSortChange = e => {
+        this.setState({sortBy: e.target.value})
+    }
+
+    sortMovies = movies => {
+        const { sortBy } = this.state
+        const sorting = sortBy.split('-')
+
+        return _.orderBy(movies, sorting[0], sorting[1])
+    }
+
     render() {
-        const { movies, nowViewing } = this.state
+        const { movies, nowViewing, sortBy } = this.state
 
         return (
             <section className="container main movies">
@@ -92,9 +105,16 @@ class Movies extends React.Component {
                             <option value="upcoming">Upcoming</option>
                         </select>
                     </div>
+                    <div className="form-group">
+                        <label>Sort by:</label>
+                        <select className="form-control" onChange={this.onSortChange} defaultValue={sortBy}>
+                            <option value="title-asc">Title (Asc)</option>
+                            <option value="title-desc">Title (Desc)</option>
+                        </select>
+                    </div>
                 </aside>
                 <div className="row movie-list-wrapper">
-                    {movies.map((movie, i) => {
+                    {this.sortMovies(movies).map((movie, i) => {
                         return (
                             <Movie
                                 key={i}
