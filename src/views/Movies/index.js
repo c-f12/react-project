@@ -89,7 +89,7 @@ class Movies extends React.Component {
 
     render() {
         const { movies, nowViewing, sortBy } = this.state
-
+        console.log(movies[0])
         return (
             <section className="container main movies">
                 <header className="row">
@@ -111,6 +111,12 @@ class Movies extends React.Component {
                         <select className="form-control" onChange={this.onSortChange} defaultValue={sortBy}>
                             <option value="title-asc">Title (Asc)</option>
                             <option value="title-desc">Title (Desc)</option>
+                            <option value="popularity-asc">Less Popular</option>
+                            <option value="popularity-desc">More Popular</option>
+                            <option value="vote_average-asc">Worst</option>
+                            <option value="vote_average-desc">Best</option>
+                            <option value="release_date-asc">Oldest</option>
+                            <option value="release_date-desc">Newest</option>
                         </select>
                     </div>
                 </aside>
