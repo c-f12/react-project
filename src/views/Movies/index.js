@@ -17,7 +17,8 @@ class Movies extends React.Component {
             page: 1,
             loadingMovies: false,
             nowViewing: 'popular',
-            sortBy: 'title-asc'
+            sortBy: 'title-asc',
+            viewingThisYearOnly: false
         }
     }
 
@@ -87,9 +88,27 @@ class Movies extends React.Component {
         return _.orderBy(movies, sorting[0], sorting[1])
     }
 
+    onToggleViewingThisYearOnly = e => {
+        this.setState({viewingThisYearOnly: !this.state.viewingThisYearOnly})
+    }
+
+    filterMovies = movies => {
+        return movies.filter(movie => {
+            console.log(movie.release_date, movie.release_date.includes('2018'))
+            return movie.release_date.includes('2018')
+        })
+    }
+
+    prepareMovies = movies => {
+        const { viewingThisYearOnly } = this.state
+        let filteredMovies = viewingThisYearOnly ? this.filterMovies(movies) : movies
+        console.log(filteredMovies.length)
+        return this.sortMovies(filteredMovies)
+    }
+
     render() {
-        const { movies, nowViewing, sortBy } = this.state
-        console.log(movies[0])
+        const { movies, nowViewing, sortBy, viewingThisYearOnly } = this.state
+
         return (
             <section className="container main movies">
                 <header className="row">
@@ -119,9 +138,15 @@ class Movies extends React.Component {
                             <option value="release_date-desc">Newest</option>
                         </select>
                     </div>
+                    <div className="form-check">
+                        <label className="form-check-label">
+                            <input className="form-check-input" onChange={this.onToggleViewingThisYearOnly} type="checkbox" checked={viewingThisYearOnly} />
+                            View this year only
+                        </label>
+                    </div>
                 </aside>
                 <div className="row movie-list-wrapper">
-                    {this.sortMovies(movies).map((movie, i) => {
+                    {this.prepareMovies(movies).map((movie, i) => {
                         return (
                             <Movie
                                 key={i}
