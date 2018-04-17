@@ -59,7 +59,8 @@ class Movies extends React.Component {
         }
         else {
             this.setState({
-                movies: nextProps.movies
+                movies: nextProps.movies,
+                loadingMovies: false
             })
         }
     }
