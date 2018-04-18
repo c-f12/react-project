@@ -1,4 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import * as movieActions from '../../actions/movieActions'
 
 class Movie extends React.Component {
     constructor(props) {
@@ -10,10 +14,13 @@ class Movie extends React.Component {
     }
 
     componentDidMount(){
-        fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`)
-        .then(response => response.json())
-        .then(movie => this.setState({movie}))
-        .catch(error => alert('We could not load the page at this time.'))
+        const { movieActions, match } = this.props
+
+        movieActions.loadMovie(match.params.id)
+    }
+
+    componentWillReceiveProps({movie}) {
+        this.setState({movie})
     }
 
     render() {
@@ -43,4 +50,17 @@ class Movie extends React.Component {
     }
 }
 
-export default Movie
+function mapStateToProps(state, ownProps){
+    return {
+        movie: state.movie
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        movieActions: bindActionCreators(movieActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movie)
+
