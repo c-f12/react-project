@@ -1,0 +1,12 @@
+.btnRemoveShow{
+    display: block;
+    margin: auto;
+    border: 0 none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }

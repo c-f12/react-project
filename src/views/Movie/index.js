@@ -25,7 +25,7 @@ class Movie extends React.Component {
 
     render() {
         const { movie } = this.state
-
+        console.log(movie)
         return (
             <section className="container main movie" style={{backgroundImage: movie.id ? `url(https://image.tmdb.org/t/p/w342/${movie.backdrop_path})` : ''}}>
                 <div className="overlay"></div>

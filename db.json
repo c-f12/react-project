@@ -1,5 +1,22 @@
 {
-    "comments": [ 
-        { "id": 1, "body": "some comment", "movieId": 1 }
-    ]
+  "comments": [
+    {
+      "id": 1,
+      "username": "Me",
+      "body": "some comment",
+      "showId": 1418
+    },
+    {
+      "id": 3,
+      "username": "Me",
+      "body": "also another comment",
+      "showId": 1415
+    },
+    {
+      "username": "user",
+      "body": "body comment",
+      "showId": 1418,
+      "id": 4
+    }
+  ]
 }
