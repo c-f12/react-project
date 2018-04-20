@@ -26,8 +26,7 @@ class Header extends React.Component {
             <div className="row">
             <header className="main-nav d-flex col-12" style={{flexDirection: 'column'}}>
                 <div className="logo-wrapper d-flex">
-                    <img src={logo} alt="TMDB"/>
-                    {numberOfMovies > 0 && <h1 style={{color: 'white'}}>{numberOfMovies}</h1>}
+                    <Link className="nav-link" to={`/`}><img src={logo} alt="TMDB"/></Link>
                 </div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,10 +36,10 @@ class Header extends React.Component {
                     <div className="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" to={`/`}>Home</Link>
+                                <Link className="nav-link" to={`/movies`}>Movies</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to={`/movies`}>Movies</Link>
+                                <Link className="nav-link" to={`/shows`}>Shows</Link>
                             </li>
                         </ul>
                     </div>
